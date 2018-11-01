@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home</title>
+	<title>About Us</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -11,6 +11,7 @@
   
 </head>
 <body>
+  
 
  <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -24,11 +25,12 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li><a href="admin.php">Home</a></li>
         <li><a href="manager.php">Manager</a></li>
         <li><a href="Salesperson.php">Salesperson</a></li>
+        <li><a href="table.php">Order</a></li>
         <li><a href="index.php">Customer</a></li>
-        <li><a href="about.php">About Us</a></li>
+        <li class="active"><a href="about.php">About Us</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="login.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -37,10 +39,7 @@
   </div>
 </nav>
 
-<div class="container">
-  <h1 align="center" ><i>Welcome Mr. Admin</i></h1>
 
-</div>
 
 
 

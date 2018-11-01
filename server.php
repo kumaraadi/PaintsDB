@@ -7,7 +7,7 @@ $email    = "";
 $errors = array(); 
 
 
-$db = mysqli_connect('localhost', 'root', "", 'my_db');
+$db = mysqli_connect('localhost', 'root', "hello", 'my_db');
 
 // Sales Person Registration
 if (isset($_POST['reg_user1'])) {
@@ -125,7 +125,7 @@ if (isset($_POST['login_user'])) {
         if(mysqli_num_rows($results) == 1){
           header('location: manager.php');
         }else{
-          header('location: Salesperson.php');
+          header('location: Salesperson2.php');
         }
       
     }else {

@@ -9,35 +9,31 @@ if(isset($_POST['readrecord'])){
 	$data = '<table class="table table-bordered table-striped">
 				<tr>
 					<th>ID</th>
-					<th>Product Name</th>
-					<th>Brand</th>
-					<th>Type</th>
-					<th>Shade</th>
-					<th>Size</th>
-					<th>Selling Price</th>
+					<th>sname</th>
+					<th>Contact No</th>
+					<th>Email</th>
+					<th>Manager ID</th>
 					<th>Edit Action</th>
 					<th>Delete Action</th>
 				</tr>';
-		$displayquery = "SELECT * FROM Product_13156";
+		$displayquery = "SELECT * FROM Salesperson_13156";
 		$result = mysqli_query($conn, $displayquery);
 
 		//if(mysqli_num_rows($result)){
 		
 			while($row = mysqli_fetch_array($result)){
 				$data .= '<tr>
-					<td>'.$row['pcode'].'</td>
-					<td>'.$row['pname'].'</td>
-					<td>'.$row['brand'].'</td>
-					<td>'.$row['type'].'</td>
-					<td>'.$row['shade'].'</td>
-					<td>'.$row['size'].'</td>
-					<td>'.$row['sellingprice'].'</td>
+					<td>'.$row['userid'].'</td>
+					<td>'.$row['sname'].'</td>
+					<td>'.$row['contactno'].'</td>
+					<td>'.$row['email'].'</td>
+					<td>'.$row['mid'].'</td>
 					<td>
-						<button onclick="GetUserDetails('.$row['pcode'].')"
+						<button onclick="GetUserDetails('.$row['userid'].')"
 						class="btn btn-warning">Edit</button>
 					</td>
 					<td>
-						<button onclick="DeleteUser('.$row['pcode'].')"
+						<button onclick="DeleteUser('.$row['userid'].')"
 						class="btn btn-danger">Delete</button>
 					</td>
 
@@ -55,17 +51,12 @@ if(isset($_POST['readrecord'])){
 //Adding records
 if(!isset($_POST['hidden_user_id'])){
 
-if( isset($_POST['pcode']) && isset($_POST['pname']) && isset($_POST['brand']) && isset($_POST['type']) && isset($_POST['shade']) && isset($_POST['size']) && isset($_POST['sellingprice']))
+if( isset($_POST['userid']) && isset($_POST['sname']) && isset($_POST['contactno']) && isset($_POST['email']) && isset($_POST['mid']))
 {
+	$query = "INSERT INTO Salesperson_13156 (`userid`, `sname`, `contactno`, `email`, `mid`) VALUES ('$userid','$sname','$contactno', '$email', '$mid')";
 
-	$query = "INSERT INTO Product_13156 (`pcode`, `pname`, `brand`, `type`, `shade`, `size`, `sellingprice`) VALUES ('$pcode','$pname','$brand', '$type', '$shade', '$size', '$sellingprice')";
-
-		if($result = mysqli_query($conn,$query)){
-			exit(mysqli_error());
-		}else{
-			echo "1 record added";
-		}
-	//mysqli_query($conn, $query);
+		mysqli_query($conn,$query);
+	
 
 }
 }
@@ -73,8 +64,8 @@ if( isset($_POST['pcode']) && isset($_POST['pname']) && isset($_POST['brand']) &
 // pass id on modal
 if(isset($_POST['userid']) && isset($_POST['userid']) != "")
 {
-    $user_cid = $_POST['userid'];
-    $query = "SELECT * FROM Product_13156 WHERE cid = '$user_cid'";
+    $userid = $_POST['userid'];
+    $query = "SELECT * FROM Salesperson_13156 WHERE userid = '$userid'";
     if (!$result = mysqli_query($conn,$query)) {
         exit(mysqli_error());
     }
@@ -110,16 +101,16 @@ if(isset($_POST['hidden_user_id'])){
 	
     // get values
     $hidden_user_id = $_POST['hidden_user_id'];
-    $pname = $_POST['pname'];
-    $brand = $_POST['br'];
-    $type = $_POST['type'];
-    $shade = $_POST['shade'];
-    $size = $_POST['size'];
-    $sellingprice = $_POST['sellingprice'];
-
+    $userid = $_POST['userid'];
+    $sname = $_POST['sname'];
+    $contactno = $_POST['contactno'];
+    $email = $_POST['email'];
+    $mid = $_POST['mid'];
+   
+echo "querry runs";
    
 
-    $query = "UPDATE Customer_13156 SET shopname = '$shopname', custname = '$custname', contactno = '$contactno', address = '$address', area = '$area', city = '$city' WHERE cid = '$hidden_user_id'";
+    $query = "UPDATE Salesperson_13156 SET userid = '$userid', sname = '$sname', contactno = '$contactno', email = '$email' WHERE userid = '$hidden_user_id'";
     mysqli_query($conn,$query);
 
 }
@@ -129,9 +120,9 @@ if(isset($_POST['hidden_user_id'])){
 if(isset($_POST['deleteid']))
 {
 
-	$user_id = $_POST['deleteid']; 
+	$userid = $_POST['deleteid']; 
 
-	$deletequery = " DELETE from Customer_13156 where cid ='$user_id'";
+	$deletequery = " DELETE from Salesperson_13156 where userid ='$userid'";
 	mysqli_query($conn,$deletequery);
 
 }
