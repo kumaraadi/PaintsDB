@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 	  <title>Salesperson</title>
@@ -32,9 +32,12 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="admin.php">Home</a></li>
+        <li><a href="Users.php">Users</a></li>
+        <li><a href="Product.php">Products</a></li>
         <li><a href="manager.php">Manager</a></li>
         <li class="active"><a href="Salesperson.php">Salesperson</a></li>
         <li><a href="index.php">Customer</a></li>
+        <li><a href="table1.php">Order</a></li>
         <li><a href="about.php">About Us</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -70,21 +73,31 @@
       <!-- Modal body -->
       <div class="modal-body">
         	<div class="form-group">
-        		<label> ID:</label>
-        		<input type="text" name="" id="userid" class="form-control">
-
         		<label>Name</label>
         		<input type="text" name="" id="sname" class="form-control">
 
         		<label>Contact no:</label>
-        		<input type="text" name="" id="contactno" class="form-control">
+        		<input type="number" name="" id="contactno" class="form-control">
 
         		<label> email:</label>
         		<input type="text" name="" id="email" class="form-control">
 
         		<label> Manager ID:</label>
-        		<input type="text" name="" id="mid" class="form-control">
-
+        		<!-- <input type="text" name="" id="mid" class="form-control"> -->
+            <select class="form-control" id="select1" onchange="selectMID(this.value)">
+                <option disabled="" selected="" value="">Select Manager ID</option> 
+                         <?php
+                       include 'conn.php';
+                       
+                        $result2 = mysqli_query($conn, "SELECT * FROM Manager_13156");
+                        while($row2 = mysqli_fetch_array($result2)) 
+                        {
+                          echo "<option value = '{$row2['mid'] }'";
+                          echo ">{$row2['mid'] } - {$row2['mname'] }</option>";
+                        }
+                        // CloseCon($conn);
+                      ?>
+            </select> 
 
 
         		
@@ -118,7 +131,7 @@
       <div class="modal-body">
         <div class="form-group">
             <label> ID:</label>
-            <input type="text" name="userid" id="update_userid" class="form-control" >
+            <input type="text" name="userid" id="update_userid" class="form-control" readonly>
           
 
             
@@ -128,7 +141,7 @@
 
 
             <label> Contact No:</label>
-            <input type="text" name="contactno" id="update_contactno" class="form-control" >
+            <input type="number" name="contactno" id="update_contactno" class="form-control" >
           
 
             <label> Email:</label>
@@ -136,7 +149,21 @@
        
 
             <label> Manager ID:</label>
-            <input type="text" name="mid" id="update_mid" class="form-control">
+            <!-- <input type="text" name="mid" id="update_mid" class="form-control"> -->
+            <select class="form-control" id="select2" onchange="selectMID(this.value)">
+                <option disabled="" selected="" value="">Select Manager ID</option> 
+                         <?php
+                       include 'conn.php';
+                       
+                        $result2 = mysqli_query($conn, "SELECT * FROM Manager_13156");
+                        while($row2 = mysqli_fetch_array($result2)) 
+                        {
+                          echo "<option value = '{$row2['mid'] }'";
+                          echo ">{$row2['mid'] } - {$row2['mname'] }</option>";
+                        }
+                        // CloseCon($conn);
+                      ?>
+            </select> 
        
 
       </div>
@@ -163,6 +190,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
   <script>
+    var s_mid;
+
 $(document).ready(function () {
     readRecords(); 
   });
@@ -180,17 +209,16 @@ $(document).ready(function () {
 
   	}
   	function addRecord(){
-  		var userid = $('#userid').val();
+  		//var userid = $('#userid').val();
   		var sname = $('#sname').val();
   		var contactno = $('#contactno').val();
   		var email = $('#email').val();
-  		var mid = $('#mid').val();
+  		var mid = s_mid;
 
   		$.ajax({
   			url:"salespersonbackend.php",
   			type:"post",
   			data:{
-          userid : userid,
   				sname : sname,
           contactno : contactno,
   				email : email,
@@ -198,11 +226,12 @@ $(document).ready(function () {
 
   			},
   			success:function(data,status){
-          $('#userid').val("");
+          //$('#userid').val("");
           $('#sname').val("");
           $('#contactno').val("");
           $('#email').val("");
           $('#mid').val("");
+          $('#select1').val("");
   				readRecords("");
   			}
 
@@ -240,7 +269,7 @@ function DeleteUser(deleteid){
             $("#update_name").val(user.sname);
             $("#update_contactno").val(user.contactno);
             $("#update_email").val(user.email);
-            $("#update_mid").val(user.mid);
+            //$("#update_mid").val(user.mid);
             
         }
     );
@@ -250,15 +279,15 @@ function DeleteUser(deleteid){
 
 
 function UpdateUserDetails() {
-    var userid = $('#update_userid').val();
+    //var userid = $('#update_userid').val();
     var sname = $('#update_name').val();
     var contactno = $('#update_contactno').val();
     var email = $('#update_email').val();
-    var mid = $('#update_mid').val();
+    var mid = s_mid;
    var hidden_user_id = $('#hidden_user_id').val();
     $.post("salespersonbackend.php", {
             hidden_user_id: hidden_user_id,
-            userid: userid,
+            //userid: userid,
             sname: sname,
             contactno: contactno,
             email: email,
@@ -267,9 +296,14 @@ function UpdateUserDetails() {
         function (data, status) {
           //alert(data);
             $("#update_user_modal").modal("hide");
+            
+            $('#select2').val("");
             readRecords();
         }
     );
+}
+function selectMID(value){
+    s_mid = value;
 }
 
   </script>

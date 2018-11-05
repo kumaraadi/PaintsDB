@@ -34,9 +34,12 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="admin.php">Home</a></li>
+        <li><a href="Users.php">Users</a></li>
+        <li><a href="Product.php">Products</a></li>
         <li><a href="manager.php">Manager</a></li>
         <li><a href="Salesperson.php">Salesperson</a></li>
         <li class="active"><a href="index.php">Customer</a></li>
+        <li><a href="table1.php">Order</a></li>
         <li><a href="about.php">About Us</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -55,7 +58,7 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Create</button>	
 		</div>
 
-				<h2 class="text-danger"> All Records </h2>
+				<h2 class="text-danger"> Customers </h2>
 
 				<div id="Records_contant">  
 				</div>
@@ -74,8 +77,6 @@
       <!-- Modal body -->
       <div class="modal-body">
         	<div class="form-group">
-        		<label> ID:</label>
-        		<input type="text" name="" id="cid" class="form-control" placeholder="Customer ID">
 
         		<label> Shop Name:</label>
         		<input type="text" name="" id="shopname" class="form-control" placeholder="Shop Name">
@@ -84,7 +85,7 @@
         		<input type="text" name="" id="custname" class="form-control" placeholder="Customer Name">
 
         		<label> Contact No:</label>
-        		<input type="text" name="" id="contactno" class="form-control" placeholder="Contact Number">
+        		<input type="Number" name="" id="contactno" class="form-control" placeholder="Contact Number">
 
         		<label> Address:</label>
         		<input type="text" name="" id="address" class="form-control" placeholder="Address">
@@ -126,7 +127,7 @@
       <div class="modal-body">
             <div class="form-group">
             <label> ID:</label>
-            <input type="text" name="cid" id="update_cid" class="form-control" >
+            <input type="text" name="cid" id="update_cid" class="form-control" readonly >
           </div>
 
             <div class="form-group">
@@ -141,7 +142,7 @@
 
             <div class="form-group">
             <label> Contact No:</label>
-            <input type="text" name="contactno" id="update_contactno" class="form-control">
+            <input type="Number" name="contactno" id="update_contactno" class="form-control">
             </div>
 
             <div class="form-group">
@@ -200,7 +201,7 @@ $(document).ready(function () {
 
   	}
   	function addRecord(){
-  		var cid = $('#cid').val();
+  		//var cid = $('#cid').val();
   		var shopname = $('#shopname').val();
   		var custname = $('#custname').val();
   		var contactno = $('#contactno').val();
@@ -211,7 +212,8 @@ $(document).ready(function () {
   		$.ajax({
   			url:"backend.php",
   			type:"post",
-  			data:{cid : cid,
+  			data:{
+
   				shopname : shopname,
   				custname : custname,
   				contactno : contactno,
@@ -221,6 +223,14 @@ $(document).ready(function () {
 
   			},
   			success:function(data,status){
+
+            $('#shopname').val("");
+            $('#custname').val("");
+            $('#contactno').val("");
+            $('#address').val("");
+            $('#area').val("");
+            $('#city').val("");
+            
   				readRecords();
   			}
 
@@ -251,7 +261,6 @@ function DeleteUser(deleteid){
             cid: cid
         },
         function (data, status) {
-            alert(data);
       
             var user = JSON.parse(data);
            
@@ -266,12 +275,13 @@ function DeleteUser(deleteid){
             
         }
     );
+    jQuery.noConflict(); 
     $("#update_user_modal").modal("show");
 }
 
 
 function UpdateUserDetails() {
-    var cid = $('#update_cid').val();
+    //var cid = $('#update_cid').val();
     var shopname = $('#update_shopname').val();
     var custname = $('#update_custname').val();
     var contactno = $('#update_contactno').val();
@@ -282,7 +292,7 @@ function UpdateUserDetails() {
    var hidden_user_id = $('#hidden_user_id').val();
     $.post("backend.php", {
             hidden_user_id: hidden_user_id,
-            cid: cid,
+            
             shopname: shopname,
             custname: custname,
             contactno: contactno,
@@ -293,6 +303,14 @@ function UpdateUserDetails() {
         function (data, status) {
           //alert(data);
             $("#update_user_modal").modal("hide");
+              
+            $('#update_cid').val("");  
+            $('#update_shopname').val("");
+            $('#update_custname').val("");
+            $('#update_contactno').val("");
+            $('#update_address').val("");
+            $('#update_area').val("");
+            $('#update_city').val("");
             readRecords();
         }
     );

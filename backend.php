@@ -55,10 +55,10 @@ if(isset($_POST['readrecord'])){
 //Adding records
 if(!isset($_POST['hidden_user_id'])){
 
-if( isset($_POST['cid']) && isset($_POST['shopname']) && isset($_POST['custname']) && isset($_POST['contactno']) && isset($_POST['address']) && isset($_POST['area']) && isset($_POST['city']))
+if(isset($_POST['shopname']) && isset($_POST['custname']) && isset($_POST['contactno']) && isset($_POST['address']) && isset($_POST['area']) && isset($_POST['city']))
 {
 
-	$query = "INSERT INTO Customer_13156 (`cid`, `shopname`, `custname`, `contactno`, `address`, `area`, `city`) VALUES ('$cid','$shopname','$custname', '$contactno', '$address', '$area', '$city')";
+	$query = "INSERT INTO Customer_13156 (`shopname`, `custname`, `contactno`, `address`, `area`, `city`) VALUES ('$shopname','$custname', '$contactno', '$address', '$area', '$city')";
 
 		if($result = mysqli_query($conn,$query)){
 			exit(mysqli_error());

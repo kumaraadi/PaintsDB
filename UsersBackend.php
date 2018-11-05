@@ -9,31 +9,29 @@ if(isset($_POST['readrecord'])){
 	$data = '<table class="table table-bordered table-striped">
 				<tr>
 					<th>ID</th>
-					<th>Name</th>
-					<th>Contact</th>
-					<th>Email</th>
-					<th>Address</th>
+					<th>Password</th>
+					<th>User Type</th>
+					<th>Active</th>
 					<th>Edit Action</th>
 					<th>Delete Action</th>
 				</tr>';
-		$displayquery = "SELECT * FROM Manager_13156";
+		$displayquery = "SELECT * FROM User_13156";
 		$result = mysqli_query($conn, $displayquery);
 
 		//if(mysqli_num_rows($result)){
 		
 			while($row = mysqli_fetch_array($result)){
 				$data .= '<tr>
-					<td>'.$row['mid'].'</td>
-					<td>'.$row['mname'].'</td>
-					<td>'.$row['contactno'].'</td>
-					<td>'.$row['email'].'</td>
-					<td>'.$row['address'].'</td>
+					<td>'.$row['userid'].'</td>
+					<td>'.$row['password'].'</td>
+					<td>'.$row['userRole'].'</td>
+					<td>'.$row['active'].'</td>
 					<td>
-						<button onclick="GetUserDetails('.$row['mid'].')"
+						<button onclick="GetUserDetails('.$row['userid'].')"
 						class="btn btn-warning">Edit</button>
 					</td>
 					<td>
-						<button onclick="DeleteUser('.$row['mid'].')"
+						<button onclick="DeleteUser('.$row['userid'].')"
 						class="btn btn-danger">Delete</button>
 					</td>
 
@@ -51,26 +49,21 @@ if(isset($_POST['readrecord'])){
 //Adding records
 if(!isset($_POST['hidden_user_id'])){
 
-if(isset($_POST['mname']) && isset($_POST['contactno']) && isset($_POST['email']) && isset($_POST['address']))
+if(isset($_POST['password']) && isset($_POST['userRole']) && isset($_POST['active']))
 {
-	echo "Hello";
-	$query = "INSERT INTO Manager_13156 
-	(`mname`, `contactno`, `email`, `address`)
-	 VALUES 
-	 ('$mname','$contactno', '$email', '$address')";
+	$query = "INSERT INTO User_13156 (`password`, `userRole`, `active`) VALUES ('$password','$userRole', '$active')";
 
-			mysqli_query($conn,$query);
-		
+		mysqli_query($conn,$query);
+	
+
 }
 }
 
 // pass id on modal
-if(isset($_POST['mid']) && isset($_POST['mid']) != "")
+if(isset($_POST['userid']) && isset($_POST['userid']) != "")
 {
-    $mid = $_POST['mid'];
-
-    $query = "SELECT * FROM Manager_13156 WHERE mid = '$mid'";
-
+    $userid = $_POST['userid'];
+    $query = "SELECT * FROM User_13156 WHERE userid = '$userid'";
     if (!$result = mysqli_query($conn,$query)) {
         exit(mysqli_error());
     }
@@ -106,14 +99,15 @@ if(isset($_POST['hidden_user_id'])){
 	
     // get values
     $hidden_user_id = $_POST['hidden_user_id'];
-    //$mid = $_POST['mid'];
-    $mname = $_POST['mname'];
-    $contactno = $_POST['contactno'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
+   
+    $password = $_POST['password'];
+    $userRole = $_POST['userRole'];
+    $active = $_POST['active'];
     
 
-    $query = "UPDATE Manager_13156 SET mname = '$mname', contactno = '$contactno', email = '$email', address = '$address' WHERE mid = '$hidden_user_id'";
+   
+
+    $query = "UPDATE User_13156 SET  password = '$password', userRole = '$userRole', active = '$active' WHERE userid = '$hidden_user_id'";
     mysqli_query($conn,$query);
 
 }
@@ -123,9 +117,9 @@ if(isset($_POST['hidden_user_id'])){
 if(isset($_POST['deleteid']))
 {
 
-	$mid = $_POST['deleteid']; 
+	$userid = $_POST['deleteid']; 
 
-	$deletequery = " DELETE from Manager_13156 where mid ='$mid'";
+	$deletequery = " DELETE from User_13156 where userid ='$userid'";
 	mysqli_query($conn,$deletequery);
 
 }

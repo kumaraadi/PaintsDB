@@ -23,7 +23,7 @@ if (isset($_POST['reg_user1'])) {
   if (empty($password)) { array_push($errors, "Password is required"); }
   
 
-  $user_check_query = "SELECT * FROM User_13156 WHERE userid='$userid' OR email='$email' LIMIT 1";
+  $user_check_query = "SELECT * FROM User_13156 WHERE userid='$userid' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);
   $user = mysqli_fetch_assoc($result);
   
@@ -39,13 +39,17 @@ if (isset($_POST['reg_user1'])) {
 
 
   if (count($errors) == 0) {
-    $my_query = "INSERT INTO Salesperson_13156 (userid, name, contactno, email, mid ) 
-          VALUES('$userid', '$name', '$contactno', '$email', '$mid')";
+    $my_query = "INSERT INTO Salesperson_13156 (sname, contactno, email, mid ) 
+          VALUES('$name', '$contactno', '$email', '$mid')";
           mysqli_query($db, $my_query);
-  	$query = "INSERT INTO User_13156 (userid, password, userRole, active ) 
-  			  VALUES('$userid', '$password', 'Salesperson', 'Yes')";
+  	$query = "INSERT INTO User_13156 (password, userRole, active ) 
+  			  VALUES('$password', 'Salesperson', 'Yes')";
   	mysqli_query($db, $query);
-  	
+  	$query = "SELECT * from Salesperson_13156 WHERE sname = '$name' AND email = '$email' AND contactno = '$contactno'";
+    $result = mysqli_query($my_db, $query);
+    $user= mysqli_fetch_assoc($result);
+    $message = "wrong answer";
+    echo "<script type='text/javascript'>alert('$message');</script>";
   	header('location: login.php');
   }
 }
@@ -112,14 +116,18 @@ if (isset($_POST['login_user'])) {
   if (count($errors) == 0) {
     $query = "SELECT * FROM User_13156 WHERE userid='$userid' AND password='$password'";
     $results = mysqli_query($db, $query);
+    $query1 = "SELECT userRole FROM User_13156 WHERE userid='$userid' AND password='$password' AND userRole = 'admin'";
+    $result = mysqli_query($db, $query1);
+
+
       
-        if($userid=="admin" && $password=="admin"){
+        if(mysqli_num_rows($result) == 1){
             header('location: admin.php');
         }
         else if (mysqli_num_rows($results) == 1) {
       $_SESSION['userid'] = $userid;
       $_SESSION['success'] = "You are now logged in";
-      $query = "SELECT * FROM User_13156 WHERE userid = '$userid' AND userRole = 'Manager'";
+      $query = "SELECT * FROM User_13156 WHERE userid = '$userid' AND userRole = 'manager'";
       $results = mysqli_query($db, $query);
         
         if(mysqli_num_rows($results) == 1){
@@ -132,6 +140,10 @@ if (isset($_POST['login_user'])) {
       array_push($errors, "Wrong userid/password combination");
     }
   }
+}
+
+function alert($msg) {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
 }
 
 ?>

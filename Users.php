@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Manager</title>
+	  <title>Users</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
  
@@ -32,9 +32,9 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="admin.php">Home</a></li>
-        <li><a href="Users.php">Users</a></li>
+        <li class="active"><a href="Users.php">Users</a></li>
         <li><a href="Product.php">Products</a></li>
-        <li class="active"><a href="manager.php">Manager</a></li>
+        <li><a href="manager.php">Manager</a></li>
         <li><a href="Salesperson.php">Salesperson</a></li>
         <li><a href="index.php">Customer</a></li>
         <li><a href="table1.php">Order</a></li>
@@ -48,15 +48,13 @@
 </nav>
 
 
-
-
 	<div class="container">
 		
 		<div class="d-flex justify-content-end">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Add Manager</button>	
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Add User</button>	
 		</div>
 
-				<h2 class="text-danger"> Managers </h2>
+				<h2 class="text-danger"> Users</h2>
 
 				<div id="Records_contant">  
 				</div>
@@ -68,26 +66,33 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Manager Info</h4>
+        <h4 class="modal-title">User Details</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         	<div class="form-group">
-        		
-        		<label> Name:</label>
-        		<input type="text" name="" id="mname" class="form-control">
 
-        		<label> Contact:</label>
-        		<input type="number" name="" id="contactno" class="form-control" >
+        		<label>Password</label>
+        		<input type="text" name="" id="passwd" class="form-control">
 
-        		<label> Email:</label>
-        		<input type="text" name="" id="email" class="form-control" >
+        		<label>User Type:</label>
+        		<select class="form-control" id="select1" onchange="selectType(this.value)">
+                <option disabled="" selected="" value="">Select</option>
+                <option value="admin">Admin</option> 
+                <option value="manager">Manager</option>
+                <option value="salesperson">Salesperson</option>
+                         
+            </select>
 
-        		<label> Address:</label>
-        		<input type="text" name="" id="address" class="form-control" >
-
+        		<label> Active:</label>
+        		<select class="form-control" id="select2" onchange="selectActive(this.value)">
+                <option disabled="" selected="" value="">Select</option>
+                <option value="Yes">Yes</option> 
+                <option value="No">No</option>
+                         
+            </select>
 
         		
         	</div>
@@ -112,58 +117,59 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Manager Info</h4>
+        <h4 class="modal-title">Update User</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-            <div class="form-group">
-            <label> ID:</label>
-            <input type="text" name="mid" id="update_mid" class="form-control" >
-          </div>
+        <div class="form-group">
+            <label>User ID:</label>
+            <input type="text" name="userid" id="update_userid" class="form-control" readonly="">
+          
 
-            <div class="form-group">
-            <label> Name:</label>
-            <input type="text" name="name" id="update_name" class="form-control">
-            </div>
+            
+            <label> Password:</label>
+            <input type="text" name="name" id="update_passwd" class="form-control">
+           
 
-            <div class="form-group">
-            <label> Contact:</label>
-            <input type="number" name="contactno" id="update_contactno" class="form-control">
-            </div>
 
-            <div class="form-group">
-            <label> Email:</label>
-            <input type="text" name="email" id="update_email" class="form-control">
-            </div>
+            <label> user Type:</label>
+            <select class="form-control" id="select1" onchange="selectType(this.value)">
+                <option disabled="" selected="" value="">Select</option>
+               <option disabled="" selected="" value="">Select</option>
+                <option value="admin">Admin</option> 
+                <option value="manager">Manager</option>
+                <option value="salesperson">Salesperson</option>
+                         
+            </select>
+          
 
-            <div class="form-group">
-            <label> Address:</label>
-            <input type="text" name="address" id="update_address" class="form-control">
-            </div>
+            <label> Active:</label>
+            <select class="form-control" id="select2" onchange="selectActive(this.value)">
+                <option disabled="" selected="" value="">Select</option>
+                <option value="Yes">Yes</option> 
+                <option value="No">No</option>
+                         
+            </select>
+       
 
       </div>
+    </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="UpdateUserDetails()">Save</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         <input type="hidden" id="hidden_user_id">
-        </div>
-       
       </div>
+       
+      
 
     </div>
   </div>
 </div>
-
-
-
-
-
-
-	</div>
+</div>
 
 
 
@@ -172,6 +178,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
   <script>
+    
+var s_type="";
+var s_active="";
+
 $(document).ready(function () {
     readRecords(); 
   });
@@ -179,7 +189,7 @@ $(document).ready(function () {
   	function readRecords(){
   		var readrecord = "readrecord";
   		$.ajax({
-  			url:"managerbackend.php",
+  			url:"UsersBackend.php",
   			type:"post",
   			data:{ readrecord:readrecord},
   			success:function(data, status){
@@ -189,27 +199,22 @@ $(document).ready(function () {
 
   	}
   	function addRecord(){
-  		//var mid = $('#mid').val();
-  		var mname = $('#mname').val();
-  		var contactno = $('#contactno').val();
-  		var email = $('#email').val();
-  		var address = $('#address').val();
+  		
+  		var passwd = $('#passwd').val();
+  		
 
   		$.ajax({
-  			url:"managerbackend.php",
+  			url:"UsersBackend.php",
   			type:"post",
   			data:{
-  				mname : mname,
-  				contactno : contactno,
-  				email : email,
-  				address : address
+          password: passwd,
+          userRole: s_type,
+          active: s_active
+
   			},
   			success:function(data,status){
-         $('#mname').val('');
-         $('#contactno').val('');
-         $('#email').val('');
-         $('#address').val('');
-  				readRecords();
+          $('#passwd').val("");
+  				readRecords("");
   			}
 
   		});
@@ -220,7 +225,7 @@ function DeleteUser(deleteid){
   var conf = confirm("Are you sure?");
   if(conf == true) {
   $.ajax({
-    url:"managerbackend.php",
+    url:"UsersBackend.php",
     type:"post",
     data: {  deleteid : deleteid},
 
@@ -232,52 +237,70 @@ function DeleteUser(deleteid){
 }
 
 
-    function GetUserDetails(mid){
-   $("#hidden_user_id").val(mid);
+    function GetUserDetails(userid){
+   $("#hidden_user_id").val(userid);
    
-    $.post("managerbackend.php", {
-            mid: mid
+    $.post("UsersBackend.php", {
+            userid: userid
         },
         function (data, status) {
             var user = JSON.parse(data);
 
-            $("#update_mid").val(user.mid);
-            $("#update_name").val(user.mname);
-            $("#update_contactno").val(user.contactno);
-            $("#update_email").val(user.email);
-            $("#update_address").val(user.address);
-            
-            
+            $("#update_userid").val(user.userid);
+            $("#update_passwd").val(user.password);
+            // var role = user.userRole;
+            // var act = user.active;
+            // if(role.equals("admin")){
+            //   alert("admin");
+            //   setSelectedIndex(document.getElementById("select1"),0);
+            // }else if(role.equals("Salesperson")){
+            //   setSelectedIndex(document.getElementById("select1"),1);
+            //   alert("sales");
+            // }
+            // else{
+            //   setSelectedIndex(document.getElementById("select1"),2);
+            //   alert("Manager")
+            // }
         }
     );
-
-        jQuery.noConflict(); 
-    $("#update_user_modal").modal("show");
+    jQuery.noConflict(); 
+    $('#update_user_modal').modal('show');
 }
 
 
 function UpdateUserDetails() {
-    var mid = $('#update_mid').val();
-    var mname = $('#update_name').val();
-    var contactno = $('#update_contactno').val();
-    var email = $('#update_email').val();
-    var address = $('#update_address').val();
     
-
+    var passwd = $('#update_passwd').val();
+    if(passwd=='' || s_type==''|| s_active==''){
+      alert("Incomplete data, try again!");
+    }
+    else
+  {
+    
    var hidden_user_id = $('#hidden_user_id').val();
-    $.post("managerbackend.php", {
+    $.post("UsersBackend.php", {
             hidden_user_id: hidden_user_id,
-            mname: mname,
-            contactno: contactno,
-            email: email,
-            address: address
+            password:passwd,
+            userRole:s_type,
+            active:s_active
         },
         function (data, status) {
-          //alert(data);
+          $('#update_userid').val("");
+          $('#update_passwd').val("");
             $("#update_user_modal").modal("hide");
+            s_active = "";
+            s_type = "";
             readRecords();
         }
     );
+  }
+}
+
+function selectType(value){
+  s_type = value;
+}
+function selectActive(value){
+  s_active = value;
 }
 
   </script>

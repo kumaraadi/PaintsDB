@@ -39,14 +39,14 @@ $data = array();
 while($row = mysqli_fetch_array($result))
 {
  $sub_array = array();
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="id">' . $row["id"] . '</div>';
+ $sub_array[] = '<div  class="update" data-id="'.$row["id"].'" data-column="id">' . $row["id"] . '</div>';
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="cid">' . $row["cid"] . '</div>';
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="date">' . $row["date"] . '</div>';
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="salesperson">' . $row["salesperson"].'</div>';
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="product">' . $row["product"] . '</div>';
+ $sub_array[] = '<div  class="update" data-id="'.$row["id"].'" data-column="date">' . $row["date"] . '</div>';
+ $sub_array[] = '<div class="update" data-id="'.$row["id"].'" data-column="salesperson">' . $row["salesperson"].'</div>';
+ $sub_array[] = '<div class="update" data-id="'.$row["id"].'" data-column="product">' . $row["product"] . '</div>';
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="quantity">' . $row["quantity"] . '</div>';
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="rate">' . $row["rate"] . '</div>';
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["id"].'" data-column="amount">' . $row["amount"] . '</div>';
+ $sub_array[] = '<div class="update" data-id="'.$row["id"].'" data-column="amount">' . $row["amount"] . '</div>';
 
  $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row["id"].'">Delete</button>';
  $data[] = $sub_array;

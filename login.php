@@ -15,7 +15,7 @@
    
   <form method="post" action="login.php">
     <?php include('errors.php'); ?> 
-
+<br />
     <div class="input-group">
       <label>User ID</label>
       <input type="text" name="userid" id="userid" >
@@ -24,16 +24,12 @@
       <label>Password</label>
       <input type="password" name="password" id="password">
     </div>
+    <br />
     <div class="input-group"><center>
       <button type="submit" class="mybutton" name="login_user">Login</button></center>
     </div>
     <br></br>
-    <p><center>
       
-       <a href="registration.php" class="mybutton">Sign up (Salesperson)</a>
-       <br></br>
-       <a href="registration2.php" class="mybutton">Sign up (Sales Manager)</a>
-    </center></p>
   </form>
 </body>
 </html> 

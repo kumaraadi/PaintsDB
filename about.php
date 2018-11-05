@@ -26,10 +26,12 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="admin.php">Home</a></li>
+        <li><a href="Users.php">Users</a></li>
+        <li><a href="Product.php">Products</a></li>
         <li><a href="manager.php">Manager</a></li>
         <li><a href="Salesperson.php">Salesperson</a></li>
-        <li><a href="table.php">Order</a></li>
         <li><a href="index.php">Customer</a></li>
+        <li><a href="table1.php">Order</a></li>
         <li class="active"><a href="about.php">About Us</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

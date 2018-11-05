@@ -24,7 +24,7 @@ $var = $_POST["id"];
  		}
 
  		$result = floatval($quan) * floatval($value);
- 		echo $result;
+ 		
  		$query = "UPDATE Table_13156 SET ".$_POST["column_name"]."='".$value."', amount = '".$result."' WHERE id = '".$_POST["id"]."'";
  		if(mysqli_query($connect, $query)){
  			echo "Data Updated";
